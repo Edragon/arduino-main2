@@ -16,9 +16,9 @@
   https://www.arduino.cc/en/Tutorial/BuiltInExamples/Fading
 */
 
-int b = 11;   
-int r = 9;   
-int g = 10;   
+int b = 13;   
+int r = 12;   
+int g = 11;   
 
 
 void setup() {
