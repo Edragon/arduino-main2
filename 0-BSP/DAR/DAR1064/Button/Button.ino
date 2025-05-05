@@ -21,6 +21,7 @@ void loop() {
   if (buttonState == HIGH) {
     // turn LED on:
     digitalWrite(ledPin, HIGH);
+    delay(100);
   } else {
     // turn LED off:
     digitalWrite(ledPin, LOW);
