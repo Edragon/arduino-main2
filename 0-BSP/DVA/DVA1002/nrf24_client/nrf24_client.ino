@@ -12,6 +12,8 @@
 #include <SPI.h>
 #include <RH_NRF24.h>
 
+#define LED 9
+
 // Singleton instance of the radio driver
 
 // CE 16 CS 15
@@ -22,6 +24,9 @@ RH_NRF24 nrf24(7, 10);
 
 void setup() 
 {
+  pinMode (LED, OUTPUT);
+  digitalWrite(LED, LOW);
+  
   Serial.begin(9600);
   while (!Serial) 
     ; // wait for serial port to connect. Needed for Leonardo only
@@ -36,12 +41,15 @@ void setup()
 }
 
 
+
+
 void loop()
 {
   Serial.println("Sending to nrf24_server");
   // Send a message to nrf24_server
   uint8_t data[] = "Hello World!";
   nrf24.send(data, sizeof(data));
+  LED_blnk();
   
   nrf24.waitPacketSent();
   // Now wait for a reply
@@ -66,4 +74,12 @@ void loop()
     Serial.println("No reply, is nrf24_server running?");
   }
   delay(400);
+}
+
+
+void LED_blnk(){
+  digitalWrite(LED, HIGH);
+  delay(100);
+  digitalWrite(LED, LOW);
+  
 }
