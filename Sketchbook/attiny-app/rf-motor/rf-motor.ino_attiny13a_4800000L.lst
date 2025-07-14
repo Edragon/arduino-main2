@@ -1,0 +1,233 @@
+
+C:\Users\ADMINI~1\AppData\Local\Temp\arduino_build_572672/rf-motor.ino.elf:     file format elf32-avr
+
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+__vectors():
+C:\Users\Administrator\AppData\Local\Arduino15\packages\MicroCore\hardware\avr\2.5.1\cores\microcore/pcrt.S:20
+  .endm
+
+  .section .vectors
+  .global __vectors
+__vectors:
+  rjmp __init
+   0:	0a c0       	rjmp	.+20     	; 0x16 <__ctors_end>
+C:\Users\Administrator\AppData\Local\Arduino15\packages\MicroCore\hardware\avr\2.5.1\cores\microcore/pcrt.S:21
+  vector __vector_1
+   2:	08 c0       	rjmp	.+16     	; 0x14 <__empty_interrupt>
+C:\Users\Administrator\AppData\Local\Arduino15\packages\MicroCore\hardware\avr\2.5.1\cores\microcore/pcrt.S:22
+  vector __vector_2
+   4:	07 c0       	rjmp	.+14     	; 0x14 <__empty_interrupt>
+C:\Users\Administrator\AppData\Local\Arduino15\packages\MicroCore\hardware\avr\2.5.1\cores\microcore/pcrt.S:23
+  vector __vector_3
+   6:	06 c0       	rjmp	.+12     	; 0x14 <__empty_interrupt>
+C:\Users\Administrator\AppData\Local\Arduino15\packages\MicroCore\hardware\avr\2.5.1\cores\microcore/pcrt.S:24
+  vector __vector_4
+   8:	05 c0       	rjmp	.+10     	; 0x14 <__empty_interrupt>
+C:\Users\Administrator\AppData\Local\Arduino15\packages\MicroCore\hardware\avr\2.5.1\cores\microcore/pcrt.S:25
+  vector __vector_5
+   a:	04 c0       	rjmp	.+8      	; 0x14 <__empty_interrupt>
+C:\Users\Administrator\AppData\Local\Arduino15\packages\MicroCore\hardware\avr\2.5.1\cores\microcore/pcrt.S:26
+  vector __vector_6
+   c:	03 c0       	rjmp	.+6      	; 0x14 <__empty_interrupt>
+C:\Users\Administrator\AppData\Local\Arduino15\packages\MicroCore\hardware\avr\2.5.1\cores\microcore/pcrt.S:27
+  vector __vector_7
+   e:	02 c0       	rjmp	.+4      	; 0x14 <__empty_interrupt>
+C:\Users\Administrator\AppData\Local\Arduino15\packages\MicroCore\hardware\avr\2.5.1\cores\microcore/pcrt.S:28
+  vector __vector_8
+  10:	01 c0       	rjmp	.+2      	; 0x14 <__empty_interrupt>
+C:\Users\Administrator\AppData\Local\Arduino15\packages\MicroCore\hardware\avr\2.5.1\cores\microcore/pcrt.S:29
+  vector __vector_9
+  12:	00 c0       	rjmp	.+0      	; 0x14 <__empty_interrupt>
+
+00000014 <__empty_interrupt>:
+__vector_1():
+C:\Users\Administrator\AppData\Local\Arduino15\packages\MicroCore\hardware\avr\2.5.1\cores\microcore/pcrt.S:44
+  vector __vector_19
+
+  ;.text
+  .global __empty_interrupt
+__empty_interrupt:
+  reti
+  14:	18 95       	reti
+
+00000016 <__ctors_end>:
+__init():
+C:\Users\Administrator\AppData\Local\Arduino15\packages\MicroCore\hardware\avr\2.5.1\cores\microcore/pcrt.S:50
+
+    .section .init0
+__init:
+
+    .section .init2
+    clr r1
+  16:	11 24       	eor	r1, r1
+
+00000018 <main>:
+main():
+C:\Users\Administrator\AppData\Local\Arduino15\packages\MicroCore\hardware\avr\2.5.1\cores\microcore/wiring.c:63
+ * @brief Initializing function that runs before setup().
+ */
+void init()
+{
+  // Turn on global interrupts
+  sei();
+  18:	78 94       	sei
+pinMode():
+C:\Users\Administrator\AppData\Local\Arduino15\packages\MicroCore\hardware\avr\2.5.1\cores\microcore/wiring_digital.c:31
+  if(mode == OUTPUT) // Pin as output
+    DDRB |= _BV(pin);
+
+  else // Pin as input or input pullup
+  {
+    DDRB &= ~_BV(pin); // Set pin as input
+  1a:	b8 98       	cbi	0x17, 0	; 23
+  1c:	b9 98       	cbi	0x17, 1	; 23
+C:\Users\Administrator\AppData\Local\Arduino15\packages\MicroCore\hardware\avr\2.5.1\cores\microcore/wiring_digital.c:27
+ *        INPUT_PULLUP - set pin as input and enable internal pullup resistor
+ */
+void pinMode(uint8_t pin, uint8_t mode)
+{
+  if(mode == OUTPUT) // Pin as output
+    DDRB |= _BV(pin);
+  1e:	bb 9a       	sbi	0x17, 3	; 23
+  20:	bc 9a       	sbi	0x17, 4	; 23
+  22:	bd 9a       	sbi	0x17, 5	; 23
+digitalWrite():
+C:\Users\Administrator\AppData\Local\Arduino15\packages\MicroCore\hardware\avr\2.5.1\cores\microcore/wiring_digital.c:49
+void digitalWrite(uint8_t pin, uint8_t val)
+{
+  if(val)
+    PORTB |= _BV(pin);  // Set pin high
+  else
+    PORTB &= ~_BV(pin); // Set pin low
+  24:	c3 98       	cbi	0x18, 3	; 24
+  26:	c4 98       	cbi	0x18, 4	; 24
+C:\Users\Administrator\AppData\Local\Arduino15\packages\MicroCore\hardware\avr\2.5.1\cores\microcore/wiring_digital.c:47
+ * @param val The state to set. Valid options are HIGH or LOW
+ */
+void digitalWrite(uint8_t pin, uint8_t val)
+{
+  if(val)
+    PORTB |= _BV(pin);  // Set pin high
+  28:	c5 9a       	sbi	0x18, 5	; 24
+digitalRead():
+C:\Users\Administrator\AppData\Local\Arduino15\packages\MicroCore\hardware\avr\2.5.1\cores\microcore/wiring_digital.c:61
+ * @param pin The Arduino pin to read
+ * @return uint8_t State of the pin
+ */
+uint8_t digitalRead(uint8_t pin)
+{
+  return !!(PINB & _BV(pin));
+  2a:	26 b3       	in	r18, 0x16	; 22
+  2c:	36 b3       	in	r19, 0x16	; 22
+  2e:	31 fb       	bst	r19, 1
+  30:	88 27       	eor	r24, r24
+  32:	80 f9       	bld	r24, 0
+  34:	90 e0       	ldi	r25, 0x00	; 0
+loop():
+E:\Git-category\Git-Arduino\arduino-main2\Sketchbook\attiny-app\rf-motor/rf-motor.ino:29
+
+void loop() {
+  bool cw  = digitalRead(CW_INPUT);
+  bool ccw = digitalRead(CCW_INPUT);
+
+  if (cw && !ccw) {
+  36:	20 ff       	sbrs	r18, 0
+  38:	06 c0       	rjmp	.+12     	; 0x46 <__SREG__+0x7>
+  3a:	89 2b       	or	r24, r25
+  3c:	99 f7       	brne	.-26     	; 0x24 <main+0xc>
+digitalWrite():
+C:\Users\Administrator\AppData\Local\Arduino15\packages\MicroCore\hardware\avr\2.5.1\cores\microcore/wiring_digital.c:47
+ * @param val The state to set. Valid options are HIGH or LOW
+ */
+void digitalWrite(uint8_t pin, uint8_t val)
+{
+  if(val)
+    PORTB |= _BV(pin);  // Set pin high
+  3e:	c3 9a       	sbi	0x18, 3	; 24
+C:\Users\Administrator\AppData\Local\Arduino15\packages\MicroCore\hardware\avr\2.5.1\cores\microcore/wiring_digital.c:49
+  else
+    PORTB &= ~_BV(pin); // Set pin low
+  40:	c4 98       	cbi	0x18, 4	; 24
+  42:	c5 98       	cbi	0x18, 5	; 24
+  44:	f2 cf       	rjmp	.-28     	; 0x2a <main+0x12>
+loop():
+E:\Git-category\Git-Arduino\arduino-main2\Sketchbook\attiny-app\rf-motor/rf-motor.ino:34
+    // Clockwise: OUT1 HIGH, OUT2 LOW
+    digitalWrite(OUT1, HIGH);
+    digitalWrite(OUT2, LOW);
+    digitalWrite(LED, LOW); // LED ON
+  } else if (!cw && ccw) {
+  46:	89 2b       	or	r24, r25
+  48:	69 f3       	breq	.-38     	; 0x24 <main+0xc>
+digitalWrite():
+C:\Users\Administrator\AppData\Local\Arduino15\packages\MicroCore\hardware\avr\2.5.1\cores\microcore/wiring_digital.c:49
+  4a:	c3 98       	cbi	0x18, 3	; 24
+C:\Users\Administrator\AppData\Local\Arduino15\packages\MicroCore\hardware\avr\2.5.1\cores\microcore/wiring_digital.c:47
+ * @param val The state to set. Valid options are HIGH or LOW
+ */
+void digitalWrite(uint8_t pin, uint8_t val)
+{
+  if(val)
+    PORTB |= _BV(pin);  // Set pin high
+  4c:	c4 9a       	sbi	0x18, 4	; 24
+C:\Users\Administrator\AppData\Local\Arduino15\packages\MicroCore\hardware\avr\2.5.1\cores\microcore/wiring_digital.c:49
+  else
+    PORTB &= ~_BV(pin); // Set pin low
+  4e:	c5 98       	cbi	0x18, 5	; 24
+  50:	25 e6       	ldi	r18, 0x65	; 101
+  52:	30 e0       	ldi	r19, 0x00	; 0
+  54:	06 c0       	rjmp	.+12     	; 0x62 <__SREG__+0x23>
+_delay_ms():
+c:\users\administrator\appdata\local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\avr\include\util/delay.h:187
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  56:	ef ea       	ldi	r30, 0xAF	; 175
+  58:	f4 e0       	ldi	r31, 0x04	; 4
+  5a:	31 97       	sbiw	r30, 0x01	; 1
+  5c:	f1 f7       	brne	.-4      	; 0x5a <__SREG__+0x1b>
+  5e:	00 c0       	rjmp	.+0      	; 0x60 <__SREG__+0x21>
+  60:	00 00       	nop
+  62:	21 50       	subi	r18, 0x01	; 1
+  64:	31 09       	sbc	r19, r1
+delay():
+C:\Users\Administrator\AppData\Local\Arduino15\packages\MicroCore\hardware\avr\2.5.1\cores\microcore/wiring.c:52
+ *
+ * @param ms The number of milliseconds to pause
+ */
+void delay(uint16_t ms)
+{
+  while(ms--)
+  66:	b9 f7       	brne	.-18     	; 0x56 <__SREG__+0x17>
+digitalWrite():
+C:\Users\Administrator\AppData\Local\Arduino15\packages\MicroCore\hardware\avr\2.5.1\cores\microcore/wiring_digital.c:47
+ * @param val The state to set. Valid options are HIGH or LOW
+ */
+void digitalWrite(uint8_t pin, uint8_t val)
+{
+  if(val)
+    PORTB |= _BV(pin);  // Set pin high
+  68:	c5 9a       	sbi	0x18, 5	; 24
+  6a:	25 e6       	ldi	r18, 0x65	; 101
+  6c:	30 e0       	ldi	r19, 0x00	; 0
+  6e:	06 c0       	rjmp	.+12     	; 0x7c <__SREG__+0x3d>
+_delay_ms():
+c:\users\administrator\appdata\local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\avr\include\util/delay.h:187
+  70:	ef ea       	ldi	r30, 0xAF	; 175
+  72:	f4 e0       	ldi	r31, 0x04	; 4
+  74:	31 97       	sbiw	r30, 0x01	; 1
+  76:	f1 f7       	brne	.-4      	; 0x74 <__SREG__+0x35>
+  78:	00 c0       	rjmp	.+0      	; 0x7a <__SREG__+0x3b>
+  7a:	00 00       	nop
+  7c:	21 50       	subi	r18, 0x01	; 1
+  7e:	31 09       	sbc	r19, r1
+delay():
+C:\Users\Administrator\AppData\Local\Arduino15\packages\MicroCore\hardware\avr\2.5.1\cores\microcore/wiring.c:52
+  80:	b9 f7       	brne	.-18     	; 0x70 <__SREG__+0x31>
+  82:	d3 cf       	rjmp	.-90     	; 0x2a <main+0x12>
