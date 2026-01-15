@@ -76,7 +76,7 @@ void loop()
 
   digitalWrite (buzzer, HIGH);
 
-  delay(5000);
+  delay(1000);
 
 
 }
