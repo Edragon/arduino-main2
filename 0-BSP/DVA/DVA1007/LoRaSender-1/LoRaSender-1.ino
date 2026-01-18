@@ -9,7 +9,7 @@ int counter = 0;
 const long frequency = 433E6; // LoRa Frequency
 
 const int csPin = 10; // LoRa radio chip select
-const int resetPin = 9; // LoRa radio reset
+const int resetPin = 8; // LoRa radio reset
 const int irqPin = 2; // change for your board; must be a hardware interrupt pin
 
 
@@ -36,11 +36,22 @@ void loop() {
   Serial.print("Sending packet: ");
   Serial.println(counter);
 
+  // Read voltage
+  int sensorValue = analogRead(VOLTAGE_PIN);
+  float voltage = sensorValue * (5.0 / 1023.0);
+
   // send packet
   LoRa.beginPacket();
   LoRa.print("hello ");
   LoRa.print(counter);
+  LoRa.print(" Voltage: ");
+  LoRa.print(voltage);
   LoRa.endPacket();
+
+  // Blink LED
+  digitalWrite(LED_PIN, HIGH);
+  delay(100);
+  digitalWrite(LED_PIN, LOW);
 
   counter++;
 
