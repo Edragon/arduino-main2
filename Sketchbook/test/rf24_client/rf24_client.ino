@@ -16,6 +16,8 @@ RH_NRF24 nrf24(9, 7);
 void setup() 
 {
   Serial.begin(9600);
+  pinMode(5, OUTPUT);
+  digitalWrite(5, LOW);
   if (!rf24.init())
     Serial.println("init failed");
   // The default radio config is for 30MHz Xtal, 434MHz base freq 2GFSK 5kbps 10kHz deviation
@@ -34,6 +36,13 @@ void loop()
   // Send a message to rf24_server
   uint8_t data[] = "Hello World!";
   rf24.send(data, sizeof(data));
+  for (uint8_t blinkCount = 0; blinkCount < 3; ++blinkCount)
+  {
+    digitalWrite(5, HIGH);
+    delay(1000);
+    digitalWrite(5, LOW);
+    delay(1000);
+  }
   
   rf24.waitPacketSent();
   // Now wait for a reply
