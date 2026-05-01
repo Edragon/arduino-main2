@@ -594,10 +594,10 @@ protected:
     uint16_t endBand[4] = {10800, 9100, 10800, 7600}; //!< End FM band limit
     uint16_t fmSpace[4] = {10, 20, 5, 1};             // Actually 100, 200, 50 and 25 kHz Channel Spacing. Just 100 and 50 kHz is working well.
 
-    char rds_buffer2A[65]; //!<  RDS Radio Text buffer - Program Information
+    char rds_buffer2A[65]; //!<  RT - RDS Radio Text buffer - Program Information
     char rds_buffer2B[33]; //!<  RDS Radio Text buffer - Station Information
-    char rds_buffer0A[9];  //!<  RDS Basic tuning and switching information (Type 0 groups) - Station Name
-    char rds_time[25];     //!<  RDS date time received information - UTC Time
+    char rds_buffer0A[9];  //!<  PS - RDS Basic tuning and switching information (Type 0 groups) - Station Name
+    char rds_time[25];     //!<  CT - RDS date time received information - UTC Time
     uint8_t oldTextABFlag; //!<  Saves the latest value of the textABFlag. Useful to check chanhes.
 
     char strFrequency[8]; // Used to store formated frequency
@@ -783,8 +783,19 @@ public:
     inline bool isSoftmuted() { return reg04->refined.SOFTMUTE_EN; };
 
     void setMono(bool value);
-    void setBass(bool value);
     bool isStereo();
+    void setBass(bool value);
+
+    /**
+     * @ingroup GA07
+     * @brief Gets Bass Boost
+     *
+     * @return FALSE = Disable; TRUE = Enable
+     */
+    bool inline getBass() {
+        return reg02->refined.BASS;
+    }   
+
 
     /**
      * @ingroup GA07
@@ -818,6 +829,13 @@ public:
 
     /**
      * @ingroup GA07
+     * @brief Gets Audio Mute Status. Same isMuted
+     * @return True if muted
+     */
+    inline bool getMute() { return !reg02->refined.DMUTE; };
+
+    /**
+     * @ingroup GA07
      * @brief Gets true if the output audio impedance is high
      * @return True or false
      */
@@ -847,6 +865,7 @@ public:
     uint8_t getRdsVersionCode(void);
     uint16_t getRdsGroupType();
     uint8_t getRdsProgramType(void);
+    uint8_t getRdsTrafficProgramCode(void);
     void getNext2Block(char *c);
     void getNext4Block(char *c);
 
@@ -855,6 +874,7 @@ public:
      * @ingroup GA04
      * @brief Gets the Station Name
      * @details Alias for getRdsText0A
+     * @details ATTENTION: You must call getRdsReady before calling this function. 
      * @return char* should return a string with the station name. However, some stations send other kind of messages
      * @see getRdsText0A
      */
@@ -863,8 +883,9 @@ public:
     char *getRdsText2A(void);
     /**
      * @ingroup @ingroup GA04
-     * @brief Gets the Program Information
+     * @brief Gets the Program Information (RT - Radio Text)
      * @details Process the program information data. Same getRdsText2A(). It is a alias for getRdsText2A.
+     * @details ATTENTION: You must call getRdsReady before calling this function. 
      * @return char array with the program information (63 bytes)
      * @see getRdsText2A
      */
@@ -874,11 +895,14 @@ public:
     /**
      * @ingroup GA04
      * @brief Gets the Station Information.
+     * @details ATTENTION: You must call getRdsReady before calling this function. 
      * @return char array with the Text of Station Information (33 bytes)
+     * @see getRdsReady
      */
     inline char *getRdsStationInformation(void) { return getRdsText2B(); };
 
     char *getRdsTime();
+    char *getRdsLocalTime();
 
     /**
      * @ingroup GA04

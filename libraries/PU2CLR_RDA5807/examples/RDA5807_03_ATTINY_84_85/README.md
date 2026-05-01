@@ -1,15 +1,86 @@
 # ATTiny84 and ATTiny85 setup
 
+It is possible to use the Arduino IDE platform with the PU2CLR SI470X Arduino Library to implement receivers with the ATTiny84 and ATTiny85. You will find details on how to do this below.
 
 
-## Attiny84 
-
-![Schematic - Attiny84 with oled setup ](../../extras/images/circuit_attiny84.png)
+## Arduino IDE setup
 
 
-### Attiny84 wireup
+* Open the Arduino IDE on your computer.
+* Go to the "File" or "Arduino IDE" menu and select "Preferences".
+* In the Preferences window, look for the "Additional Boards Manager URLs" field and click on the icon to edit it.
+* Add the following URL to the field: [http://drazzy.com/package_drazzy.com_index.json](http://drazzy.com/package_drazzy.com_index.json)
+* Click "OK" to close the Preferences window.
+* Next, go to the "Tools" menu and select "Board" -> "Boards Manager".
+* In the Boards Manager, type "attiny" in the search bar.
+* Look for "ATTinyCore by Spence Konde" and click on the "Install" button next to it.
+* Wait for the installation to complete.
+* Once installed, you can close the Boards Manager.
+* Now, go to the "Tools" menu and select "Board". You should see a new "ATTinyCore" section.
+* Select the appropriate ATtiny microcontroller you are using, along with the desired clock speed and other options. 
+* You are now ready to program and use ATtiny microcontrollers with the Arduino IDE using the AttinyCore. 
+* Please note that the specific steps and menu options may vary slightly depending on the version of the Arduino IDE you are using. See image below.
 
-| RDA5807 pin     | Attiny84 REF pin | Physical pin  | 
+
+
+![ATTiny84 Arduino IDE setup](../../extras/images/ATTIny_Arduino_SETUP_01.jpg)
+
+
+[More details](https://github.com/SpenceKonde/ATTinyCore)
+
+
+
+## Programming Interface (USBAsp 6 pin)
+
+
+After installing ATTiny Core on Arduino IDE, connect USBASP following the steps below:
+* Make sure your USBASP programmer is connected to your computer via USB.
+* Connect the USBASP to the target ATTiny microcontroller using the appropriate connections (MISO, MOSI, SCK, RST, VCC, and GND). See tables below.
+* Select the Board and Programmer:
+* Go to "Tools" -> "Board" and select the ATTiny microcontroller you are using (e.g., ATTiny85).
+* Go to "Tools" -> "Programmer" and select "USBasp."
+* Compile the Sketch:
+    * Write or open your Arduino sketch.
+    * Go to "Sketch" -> "Verify/Compile" to compile the sketch for the selected ATTiny board.
+    * Upload the Sketch:
+    * Go to "Sketch" menu -> "Upload Using Programmer" or press Shift + Ctrl + U.
+    * The Arduino IDE will compile the sketch and upload it to the ATTiny microcontroller using the USBASP programmer.
+    * Verify the Upload.
+
+
+The table below shows the pin functions of the ATTiny84 and ATTiny85  needed to upload sketch via USBAsp interface.
+
+
+| Function / USBAsp   | ATTiny85 Pin |  ATTiny84 Pin | 
+| ------------------- | ------------ | ------------- |
+| RESET               | 1 (PB5)      | 4 (PB3)       |   
+| MOSI                | 5 (PB0)      | 7 (PA6)       |
+| MISO                | 6 (PB1)      | 8 (PA5)       |
+| SCK                 | 7 (PB2)      | 9 (PA4)       |
+| GND                 | 4            | 14            |
+| VCC                 | 8            | 1             |
+
+
+
+| Function / USBAsp   | ATTiny85 Pin |  ATTiny84 Pin | 
+| ------------------- | ------------ | ------------- |
+| RESET               | 1 (PB5)      | 4 (PB3)       |   
+| MOSI                | 5 (PB0)      | 7 (PA6)       |
+| MISO                | 6 (PB1)      | 8 (PA5)       |
+| SCK                 | 7 (PB2)      | 9 (PA4)       |
+| GND                 | 4            | 14            |
+| VCC                 | 8            | 1             |
+
+
+
+## ATTiny84 
+
+![Schematic - ATTiny84 with oled setup ](../../extras/images/circuit_attiny84.png)
+
+
+### ATTiny84 wireup
+
+| RDA5807 pin     | ATTiny84 REF pin | Physical pin  | 
 | ----------------| -----------------| ------------- | 
 | SEEK_UP         |     3            |    10         | 
 | SEEK_DOWN       |     5            |     8         |
@@ -20,17 +91,21 @@
 
 
 
+### ATTiny84 pinout
 
-## Attiny85 
-
-
-
-![Schematic - Attiny85 with oled setup ](../../extras/images/circuit_attiny85.png)
+![ATTiny84 pinout](../../extras/images/attiny84.png)
 
 
-### ATtiny85 and RDA5807 wireup  
+## ATTiny85 
 
-| RDA5807 pin     | Attiny85 REF pin | Physical pin | 
+
+
+![Schematic - ATTiny85 with oled setup ](../../extras/images/circuit_attiny85.png)
+
+
+### ATTiny85 and RDA5807 wireup  
+
+| RDA5807 pin     | ATTiny85 REF pin | Physical pin | 
 | ----------------| -----------------| ------------- | 
 | SEEK_UP         |     PB1          |     6         | 
 | SEEK_DOWN       |     PB4          |     3         |
@@ -40,16 +115,16 @@
    
 <BR>
 
-#### ATtiny85 pinout
+#### ATTiny85 pinout
 
-![Schematic - Attiny85 pinout](../../extras/images/attiny85_pinout.jpg)
+![Schematic - ATTiny85 pinout](../../extras/images/attiny85_pinout.jpg)
 
 
 #### The example below implements an FM receiver with RDS and audio mute functions.
 
 ```cpp
 #include <RDA5807.h>
-#include <EEPROM.h> // The ATtiny85 contains 512 bytes of data EEPROM memory. The EEPROM has an endurance of at least 100,000 write/erase cycles.
+#include <EEPROM.h> // The ATTiny85 contains 512 bytes of data EEPROM memory. The EEPROM has an endurance of at least 100,000 write/erase cycles.
 #include <Tiny4kOLED.h>
 #define SEEK_UP   PB1     
 #define SEEK_DOWN PB4  
@@ -128,25 +203,25 @@ void loop()
 ```
 
 
+### Installing ATTiny Core in Arduino IDE 
 
-### Installing ATtiny Core in Arduino IDE 
+The ATTiny core board/plataform can be installed using the Arduino IDE boards manager. 
+Inserts the URL http://drazzy.com/package_drazzy.com_index.json on board manager. To do that, go to Preferences, enter the above URL in "Additional Boards Manager URLs. To setup ATTiny85 on Arduino IDE, go to Tools Menu, Board, Board Manager and install "ATTinyCore by Spence Konde". 
 
-The ATtiny core board/plataform can be installed using the Arduino IDE boards manager. 
-Inserts the URL http://drazzy.com/package_drazzy.com_index.json on board manager. To do that, go to Preferences, enter the above URL in "Additional Boards Manager URLs. To setup ATtiny85 on Arduino IDE, go to Tools Menu, Board, Board Manager and install "ATTinyCore by Spence Konde". 
-
-Board setup: Select Chip = ATtiny85;  Clock Source = 4MHz (Internal); LTO = Enabled; millis() / macros() = Enabled; 
+Board setup: Select Chip = ATTiny85;  Clock Source = 4MHz (Internal); LTO = Enabled; millis() / macros() = Enabled; 
 
 ATTENTION: if you select Clock source 8 MHz, for some reason, the system will work very slow. Maybe a bug. Not sure. 
 
-See [ATtiny Core - 1634, x313, x4, x41, x5, x61, x7, x8 and 828 for Arduino](https://github.com/SpenceKonde/ATTinyCore).
+See [ATTiny Core - 1634, x313, x4, x41, x5, x61, x7, x8 and 828 for Arduino](https://github.com/SpenceKonde/ATTinyCore).
 
-See also [ATtiny85 pinout](https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-2586-AVR-8-bit-Microcontroller-ATtiny25-ATtiny45-ATtiny85_Datasheet.pdf).
+See also [ATTiny85 pinout](https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-2586-AVR-8-bit-Microcontroller-attiny25-attiny45-attiny85_Datasheet.pdf).
 
 
 # References 
 
-* [ ATTinyCore](https://github.com/SpenceKonde/ATTinyCore)
-* [How To Program ATtiny13/ATtiny13a using Arduino IDE](https://www.electronics-lab.com/project/how-to-program-attiny13attiny13a-using-arduino-ide/)
+* [Programming ATTiny85 / 84 / 45 / 44 / 25 /24](https://wolles-elektronikkiste.de/en/programming-attiny85-84-45-44-25-24) 
+[ ATTinyCore](https://github.com/SpenceKonde/attinyCore)
+* [How To Program ATTiny13/ATTiny13a using Arduino IDE](https://www.electronics-lab.com/project/how-to-program-ATTiny13ATTiny13a-using-arduino-ide/)
 * [](https://github.com/SpenceKonde/ATTinyCore)
 
 

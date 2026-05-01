@@ -5,7 +5,7 @@
  * @details This library was built based on "RDA5807M - SINGLE-CHIP BROADCAST FM RADIO TUNER - Rev.1.1–Aug.2015"
  * @details and RDA microelectronics RDA5807FP - SINGLE-CHIP BROADCAST FM RADIO TUNER
  * @details This library can be freely distributed using the MIT Free Software model.
- * @copyright Copyright (c) 2020 Ricardo Lima Caratti.
+ * @copyright Copyright (c) 2020-2023 Ricardo Lima Caratti.
  * @author Ricardo LIma Caratti (pu2clr@gmail.com)
  */
 
@@ -752,7 +752,13 @@ void RDA5807::setFmDeemphasis(uint8_t de)
 /**
  * @defgroup GA04 RDS Functions
  * @section GA04 RDS/RBDS
- * @todo Need optimizing the method to get the RDS informastion - getStatusRegisters should be called just once at a cicle.
+ * @details Is important to mention that almost all the essential methods required to implement RDS are already implemented here.
+ * @details Begin working with RDS, simply invoke the setRDS or setRBDS methods.
+ * @details Querying a set of RDS information, please ensure to call getRdsReady before.
+ * @see [2WCOM - RDS BasicsRDS](https://www.2wcom.com/fileadmin/redaktion/dokumente/Company/RDS_Basics.pdf)
+ * @see [Radio Data System](https://en.wikipedia.org/wiki/Radio_Data_System)
+ * @see [RDS in Europe, RBDS in the USA – What are the differences and how can receivers cope with both systems?](https://tech.ebu.ch/docs/techreview/trev_255-beale.pdf)
+ * @see [RDS encoder - Implematation Manual](https://www.pira.cz/rds/readbest.pdf)
  */
 
 /**
@@ -814,6 +820,7 @@ void RDA5807::setRBDS(bool value)
  * 
  * @return true or false
  * @see setRDS, setInterruptMode, getRdsAllData, getRdsSync, setRdsFifo
+ * @see [2wcom - RDS BasicsRDS](https://www.2wcom.com/fileadmin/redaktion/dokumente/Company/RDS_Basics.pdf)
  * 
  */
 bool RDA5807::getRdsReady()
@@ -826,9 +833,10 @@ bool RDA5807::getRdsReady()
 
 /**
  * @ingroup GA04
- *
  * @brief Returns the current Text Flag A/B
+ * @details ATTENTION: You must call getRdsReady before calling this function. 
  * @return uint8_t current Text Flag A/B
+ * @see getRdsReady
  */
 uint8_t RDA5807::getRdsFlagAB(void)
 {
@@ -863,14 +871,26 @@ bool RDA5807::isNewRdsFlagAB(void)
 
 /**
  * @ingroup GA04
- * @todo It is under construction...
  * @brief Gets Station Name, Station Information, Program Information and utcTime
- * @details This function populates four char pointers with the following contents (Arguments/parameters must be pointers to char).
+ * @details This function populates four char pointer variable parameters with Station Name, Station Information, Programa Information and UTC time.
  * @details You must call  setRDS(true), setRdsFifo(true) before calling getRdsAllData(...) 
- * @param stationName  - if NOT NULL,  point to Name of the Station (char array -  9 bytes)
- * @param stationInformation - if NOT NULL, point to Station information (char array - 33 bytes)
- * @param programInformation - if NOT NULL, point to program information (char array - 65 nytes)
- * @param utcTime - if NOT NULL, point to char array containing the current UTC time (format HH:MM:SS +HH:MM)
+ * @details ATTENTION: the parameters below are point to point to array of char. 
+ * @details the right way to call this function is shown below.
+ * @code {.cpp}
+ * 
+ * char *stationName, *stationInfo, *programInfo, *rdsTime;
+ * // The char pointers above will be populate by the call below. So, the char pointers need to be passed by reference (pointer to pointer).
+ * if (rx.getRdsAllData(&stationName, &stationInfo , &programInfo, &rdsTime) ) {
+ *     showProgramaInfo(programInfo);  
+ *     showStationName(stationName); 
+ *     showStationInfo(stationInfo);
+ *     showUtcTime(rdsTime); 
+ * }
+ * @endcode
+ * @param stationName (reference)  - if NOT NULL,  point to Name of the Station (char array -  9 bytes)
+ * @param stationInformation (reference)  - if NOT NULL, point to Station information (char array - 33 bytes)
+ * @param programInformation (reference)  - if NOT NULL, point to program information (char array - 65 nytes)
+ * @param utcTime  (reference)  - if NOT NULL, point to char array containing the current UTC time (format HH:MM:SS +HH:MM)
  * @return True if found at least one valid data 
  * @see setRDS, setRdsFifo, getRdsAllData
  */
@@ -890,8 +910,9 @@ bool RDA5807::getRdsAllData(char **stationName, char **stationInformation, char 
 /**
  * @ingroup GA04
  * @brief Return the group type
- *
+ * @details ATTENTION: You must call getRdsReady before calling this function. 
  * @return uint16_t
+ * @see getRdsReady
  */
 uint16_t RDA5807::getRdsGroupType()
 {
@@ -902,9 +923,10 @@ uint16_t RDA5807::getRdsGroupType()
 
 /**
  * @ingroup GA04
- *
  * @brief Gets the version code (extracted from the Block B)
+ * @details ATTENTION: You must call getRdsReady before calling this function. 
  * @returns  0=A or 1=B
+ * @see getRdsReady
  */
 uint8_t RDA5807::getRdsVersionCode(void)
 {
@@ -916,7 +938,10 @@ uint8_t RDA5807::getRdsVersionCode(void)
 /**
  * @ingroup GA04
  * @brief Returns the Program Type (extracted from the Block B)
+ * @details ATTENTION: You must call getRdsReady before calling this function. 
  * @see https://en.wikipedia.org/wiki/Radio_Data_System
+ * @see [2wcom RDS Basics](https://www.2wcom.com/fileadmin/redaktion/dokumente/Company/RDS_Basics.pdf)
+ * @see getRdsReady
  * @return program type (an integer betwenn 0 and 31)
  */
 uint8_t RDA5807::getRdsProgramType(void)
@@ -925,6 +950,23 @@ uint8_t RDA5807::getRdsProgramType(void)
     blkb.blockB = reg0d->RDSB;
     return blkb.refined.programType;
 }
+
+/**
+ * @ingroup GA04
+ * @brief Returns the Traffic Alerts given by the station
+ * @details ATTENTION: You must call getRdsReady before calling this function. 
+ * @see https://en.wikipedia.org/wiki/Radio_Data_System
+ * @see [2wcom RDS Basics](https://www.2wcom.com/fileadmin/redaktion/dokumente/Company/RDS_Basics.pdf)
+ * @see getRdsReady
+ * @return  0 = No Traffic Alerts; 1 = Station gives Traffic Alerts
+ */
+uint8_t RDA5807::getRdsTrafficProgramCode(void)
+{
+    rds_blockb blkb;
+    blkb.blockB = reg0d->RDSB;
+    return blkb.refined.trafficProgramCode;
+}
+
 
 /**
  * @ingroup GA04
@@ -1005,11 +1047,11 @@ void RDA5807::getNext4Block(char *c)
 
 /**
  * @ingroup GA04
- * @todo RDS Dynamic PS or Scrolling PS support
  * @brief Gets the station name and other messages.
- *
+ * @details ATTENTION: You must call getRdsReady before calling this function. 
  * @return char* should return a string with the station name.
  *         However, some stations send other kind of messages
+ * @see getRdsReady
  */
 char *RDA5807::getRdsText0A(void)
 {
@@ -1037,7 +1079,9 @@ char *RDA5807::getRdsText0A(void)
  *
  * @brief Gets the Program Information
  * @details Process the program information data. 
+ * @details ATTENTION: You must call getRdsReady before calling this function. 
  * @return char array with the program information (63 bytes) 
+ * @see getRdsReady
  */
 char *RDA5807::getRdsText2A(void)
 {
@@ -1063,8 +1107,11 @@ char *RDA5807::getRdsText2A(void)
 
 /**
  * @ingroup GA04
+ * @todo Under construction... To be checked.
  * @brief Gets the Station Information.  
+ * @details ATTENTION: You must call getRdsReady before calling this function. 
  * @return char array with the Text of Station Information (33 bytes)
+ * @see getRdsReady
  */
 char *RDA5807::getRdsText2B(void)
 {
@@ -1072,7 +1119,7 @@ char *RDA5807::getRdsText2B(void)
     rds_blockb blkb;
 
     blkb.blockB = reg0d->RDSB;
-    if (blkb.group2.groupType == 2)
+    if (blkb.group2.groupType == 1)
     {
         // Process group 2B
         rdsTextAdress2B = blkb.group2.address;
@@ -1087,14 +1134,14 @@ char *RDA5807::getRdsText2B(void)
 
 /**
  * @ingroup GA04
- * @todo Need to check.
- * @brief Gets the RDS time and date when the Group type is 4
+ * @brief Gets the RDS UTC time and date when the Group type is 4
+ * @details ATTENTION: You must call getRdsReady before calling this function. 
+ * @details ATTENTION: Some stations broadcast wrong time.
  * @return char* a string with hh:mm +/- offset
+ * @see getRdsReady
  */
 char *RDA5807::getRdsTime()
 {
-    // Under Test and construction
-    // Need to check the Group Type before.
     rds_date_time dt;
     word16_to_bytes blk_b, blk_c, blk_d;
     rds_blockb blkb;
@@ -1130,7 +1177,9 @@ char *RDA5807::getRdsTime()
         offset_h = (dt.refined.offset * 30) / 60;
         offset_m = (dt.refined.offset * 30) - (offset_h * 60);
 
-        // sprintf(rds_time, "%02u:%02u %c%02u:%02u", hour, minute, offset_sign, offset_h, offset_m);
+        // If wrong time, return NULL
+        if ( offset_h > 12 || offset_m > 60 || hour > 24 || minute > 60 ) return NULL;
+
         this->convertToChar(hour, rds_time, 2, 0, ' ', false);
         rds_time[2] = ':';
         this->convertToChar(minute, &rds_time[3], 2, 0, ' ', false);
@@ -1140,6 +1189,71 @@ char *RDA5807::getRdsTime()
         rds_time[9] = ':';
         this->convertToChar(offset_m, &rds_time[10], 2, 0, ' ', false);
         rds_time[12] = '\0';
+
+        return rds_time;
+    }
+
+    return NULL;
+}
+
+/**
+ * @ingroup GA04
+ * @todo Need to check.
+ * @brief Gets the RDS time converted to local time. 
+ * @details ATTENTION: You must call getRdsReady before calling this function. 
+ * @details ATTENTION: Some stations broadcast wrong time.
+ * @return char* a string with hh:mm 
+ * @see getRdsReady
+ */
+char *RDA5807::getRdsLocalTime()
+{
+    rds_date_time dt;
+    word16_to_bytes blk_b, blk_c, blk_d;
+    rds_blockb blkb;
+
+    blk_b.raw = blkb.blockB = reg0d->RDSB;
+    blk_c.raw = reg0e->RDSC;
+    blk_d.raw = reg0f->RDSD;
+
+    uint16_t minute;
+    uint16_t hour;
+    uint16_t localTime;
+
+    if (blkb.group0.groupType == 4)
+    {
+        int offset_h;
+        int offset_m;
+
+        dt.raw[4] = blk_b.refined.lowByte;
+        dt.raw[5] = blk_b.refined.highByte;
+
+        dt.raw[2] = blk_c.refined.lowByte;
+        dt.raw[3] = blk_c.refined.highByte;
+
+        dt.raw[0] = blk_d.refined.lowByte;
+        dt.raw[1] = blk_d.refined.highByte;
+
+        minute = dt.refined.minute;
+        hour = dt.refined.hour;
+
+        offset_h = (dt.refined.offset * 30) / 60;
+        offset_m = (dt.refined.offset * 30) - (offset_h * 60);
+
+        localTime = (hour * 60  + minute); 
+        if ( dt.refined.offset_sense == 1) 
+            localTime -= (offset_h * 60 + offset_m);
+        else 
+            localTime += (offset_h * 60 + offset_m);
+
+        hour = localTime / 60;
+        minute = localTime - (hour * 60);
+
+        if (hour > 24 || minute > 60 ) return NULL;
+
+        this->convertToChar(hour, rds_time, 2, 0, ' ', false);
+        rds_time[2] = ':';
+        this->convertToChar(minute, &rds_time[3], 2, 0, ' ', false);
+        rds_time[5] = '\0';
 
         return rds_time;
     }
@@ -1392,6 +1506,7 @@ void RDA5807::setMute(bool value)
 /**
  * @ingroup GA07
  * @brief Sets audio output impedance high ow low
+ * @details Useful to setup high impedance headphones 
  * @param value TRUE = High; FALSE = Low
  */
 void RDA5807::setAudioOutputHighImpedance(bool value)

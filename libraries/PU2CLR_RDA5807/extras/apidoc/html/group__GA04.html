@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="LOGO.png"/></td>
   <td id="projectalign">
-   <div id="projectname">PU2CLR RDA5807 Arduino Library<span id="projectnumber">&#160;1.1.7</span>
+   <div id="projectname">PU2CLR RDA5807 Arduino Library<span id="projectnumber">&#160;1.1.9</span>
    </div>
    <div id="projectbrief">Arduino Library for RDA5807 Devices - By Ricardo Lima Caratti</div>
   </td>
@@ -103,7 +103,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:gac2defc3812e1900ccd1ac719268abe2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the Station Name.  <br /></td></tr>
 <tr class="separator:gac2defc3812e1900ccd1ac719268abe2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga73610b1372a8bdaa959862881eae05fb"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__GA04.html#ga73610b1372a8bdaa959862881eae05fb">RDA5807::getRdsProgramInformation</a> (void)</td></tr>
-<tr class="memdesc:ga73610b1372a8bdaa959862881eae05fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the Program Information.  <br /></td></tr>
+<tr class="memdesc:ga73610b1372a8bdaa959862881eae05fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the Program Information (RT - Radio Text)  <br /></td></tr>
 <tr class="separator:ga73610b1372a8bdaa959862881eae05fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga2e78c58aca2f5121306d2e5ceb98effd"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__GA04.html#ga2e78c58aca2f5121306d2e5ceb98effd">RDA5807::getRdsStationInformation</a> (void)</td></tr>
 <tr class="memdesc:ga2e78c58aca2f5121306d2e5ceb98effd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the Station Information.  <br /></td></tr>
@@ -153,6 +153,9 @@ Functions</h2></td></tr>
 <tr class="memitem:gae3bde947a89c6dadfc4dc22aea85b467"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__GA04.html#gae3bde947a89c6dadfc4dc22aea85b467">RDA5807::getRdsProgramType</a> (void)</td></tr>
 <tr class="memdesc:gae3bde947a89c6dadfc4dc22aea85b467"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the Program Type (extracted from the Block B)  <br /></td></tr>
 <tr class="separator:gae3bde947a89c6dadfc4dc22aea85b467"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga54b3bea446e68453ee1ce57762ade2e4"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__GA04.html#ga54b3bea446e68453ee1ce57762ade2e4">RDA5807::getRdsTrafficProgramCode</a> (void)</td></tr>
+<tr class="memdesc:ga54b3bea446e68453ee1ce57762ade2e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the Traffic Alerts given by the station.  <br /></td></tr>
+<tr class="separator:ga54b3bea446e68453ee1ce57762ade2e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga6afb347f32121c480adea2a36032d56f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__GA04.html#ga6afb347f32121c480adea2a36032d56f">RDA5807::getNext2Block</a> (char *c)</td></tr>
 <tr class="memdesc:ga6afb347f32121c480adea2a36032d56f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process data received from group 2B.  <br /></td></tr>
 <tr class="separator:ga6afb347f32121c480adea2a36032d56f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -170,8 +173,11 @@ Functions</h2></td></tr>
   <br /></td></tr>
 <tr class="separator:gacd6614bc7be99d55a3d9a17739ee7074"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaef398d848e7378ec4897965b8e1b4441"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__GA04.html#gaef398d848e7378ec4897965b8e1b4441">RDA5807::getRdsTime</a> ()</td></tr>
-<tr class="memdesc:gaef398d848e7378ec4897965b8e1b4441"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the RDS time and date when the Group type is 4.  <br /></td></tr>
+<tr class="memdesc:gaef398d848e7378ec4897965b8e1b4441"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the RDS UTC time and date when the Group type is 4.  <br /></td></tr>
 <tr class="separator:gaef398d848e7378ec4897965b8e1b4441"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa3432b4df8ec20277e3d3be60782b395"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__GA04.html#gaa3432b4df8ec20277e3d3be60782b395">RDA5807::getRdsLocalTime</a> ()</td></tr>
+<tr class="memdesc:gaa3432b4df8ec20277e3d3be60782b395"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the RDS time converted to local time.  <br /></td></tr>
+<tr class="separator:gaa3432b4df8ec20277e3d3be60782b395"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gae27337170a5f3dedebf585aa19855ad6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__GA04.html#gae27337170a5f3dedebf585aa19855ad6">RDA5807::setRdsFifo</a> (bool value)</td></tr>
 <tr class="memdesc:gae27337170a5f3dedebf585aa19855ad6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets RDS fifo mode enable.  <br /></td></tr>
 <tr class="separator:gae27337170a5f3dedebf585aa19855ad6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -185,7 +191,15 @@ Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <h1><a class="anchor" id="GA04"></a>
 RDS/RBDS</h1>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000003">Todo:</a></b></dt><dd>Need optimizing the method to get the RDS informastion - getStatusRegisters should be called just once at a cicle. </dd></dl>
+<p>Is important to mention that almost all the essential methods required to implement RDS are already implemented here.</p>
+<p>Begin working with RDS, simply invoke the setRDS or setRBDS methods.</p>
+<p>Querying a set of RDS information, please ensure to call getRdsReady before. </p><dl class="section see"><dt>See also</dt><dd><a href="https://www.2wcom.com/fileadmin/redaktion/dokumente/Company/RDS_Basics.pdf">2WCOM - RDS BasicsRDS</a> </dd>
+<dd>
+<a href="https://en.wikipedia.org/wiki/Radio_Data_System">Radio Data System</a> </dd>
+<dd>
+<a href="https://tech.ebu.ch/docs/techreview/trev_255-beale.pdf">RDS in Europe, RBDS in the USA – What are the differences and how can receivers cope with both systems?</a> </dd>
+<dd>
+<a href="https://www.pira.cz/rds/readbest.pdf">RDS encoder - Implematation Manual</a> </dd></dl>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="ga22c43e0f08a650bd32446eef6cd8f550" name="ga22c43e0f08a650bd32446eef6cd8f550"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga22c43e0f08a650bd32446eef6cd8f550">&#9670;&#160;</a></span>clearRdsBuffer()</h2>
@@ -293,15 +307,15 @@ RDS/RBDS</h1>
 <p>You must call getRdsReady before calling this function </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="group__GA04.html#gacfa48dfcf792a9bcee489658177aed90" title="Returns true if RDS Ready.">getRdsReady</a> Block Errors Level of RDS_DATA_0, and is always read as Errors Level of RDS BLOCK A (in RDS mode) or BLOCK E (in RBDS mode when ABCD_E flag is 1)</dd></dl>
 <table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">value   </th><th class="markdownTableHeadNone">description    </th></tr>
+<th class="markdownTableHeadNone">Bin   </th><th class="markdownTableHeadNone">Dec   </th><th class="markdownTableHeadNone">description    </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">00   </td><td class="markdownTableBodyNone">0 errors requiring correction    </td></tr>
+<td class="markdownTableBodyNone">00   </td><td class="markdownTableBodyNone">0   </td><td class="markdownTableBodyNone">0 errors requiring correction    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">01   </td><td class="markdownTableBodyNone">1~2 errors requiring correction    </td></tr>
+<td class="markdownTableBodyNone">01   </td><td class="markdownTableBodyNone">1   </td><td class="markdownTableBodyNone">1~2 errors requiring correction    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">10   </td><td class="markdownTableBodyNone">3~5 errors requiring correction    </td></tr>
+<td class="markdownTableBodyNone">10   </td><td class="markdownTableBodyNone">2   </td><td class="markdownTableBodyNone">3~5 errors requiring correction    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">11   </td><td class="markdownTableBodyNone">6+ errors or error in checkword, correction not possible   </td></tr>
+<td class="markdownTableBodyNone">11   </td><td class="markdownTableBodyNone">3   </td><td class="markdownTableBodyNone">6+ errors or error in checkword, correction not possible   </td></tr>
 </table>
 <p><b>Available only in RDS Verbose mode</b></p>
 <dl class="section return"><dt>Returns</dt><dd>value See table above. </dd></dl>
@@ -333,17 +347,18 @@ RDS/RBDS</h1>
 
 <p>Gets the current Status of block B. </p>
 <p>You must call getRdsReady before calling this function </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="group__GA04.html#gacfa48dfcf792a9bcee489658177aed90" title="Returns true if RDS Ready.">getRdsReady</a></dd></dl>
-<p>Block Errors Level of RDS_DATA_1, and is always read as Errors Level of RDS BLOCK B (in RDS mode ) or E (in RBDS mode when ABCD_E flag is 1). </p><table class="markdownTable">
+<p>Block Errors Level of RDS_DATA_1, and is always read as Errors Level of RDS BLOCK B (in RDS mode ) or E (in RBDS mode when ABCD_E flag is 1).</p>
+<table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">value   </th><th class="markdownTableHeadNone">description    </th></tr>
+<th class="markdownTableHeadNone">Bin   </th><th class="markdownTableHeadNone">Dec   </th><th class="markdownTableHeadNone">description    </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">00   </td><td class="markdownTableBodyNone">0 errors requiring correction    </td></tr>
+<td class="markdownTableBodyNone">00   </td><td class="markdownTableBodyNone">0   </td><td class="markdownTableBodyNone">0 errors requiring correction    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">01   </td><td class="markdownTableBodyNone">1~2 errors requiring correction    </td></tr>
+<td class="markdownTableBodyNone">01   </td><td class="markdownTableBodyNone">1   </td><td class="markdownTableBodyNone">1~2 errors requiring correction    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">10   </td><td class="markdownTableBodyNone">3~5 errors requiring correction    </td></tr>
+<td class="markdownTableBodyNone">10   </td><td class="markdownTableBodyNone">2   </td><td class="markdownTableBodyNone">3~5 errors requiring correction    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">11   </td><td class="markdownTableBodyNone">6+ errors or error in checkword, correction not possible   </td></tr>
+<td class="markdownTableBodyNone">11   </td><td class="markdownTableBodyNone">3   </td><td class="markdownTableBodyNone">6+ errors or error in checkword, correction not possible   </td></tr>
 </table>
 <p><b>Available only in RDS Verbose mode</b></p>
 <dl class="section return"><dt>Returns</dt><dd>value See table above. </dd></dl>
@@ -374,7 +389,7 @@ RDS/RBDS</h1>
   </dd>
 </dl>
 
-<p class="reference">Referenced by <a class="el" href="#l01014">RDA5807::getRdsText0A()</a>, and <a class="el" href="#l01069">RDA5807::getRdsText2B()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="#l01056">RDA5807::getRdsText0A()</a>, and <a class="el" href="#l01116">RDA5807::getRdsText2B()</a>.</p>
 
 </div>
 </div>
@@ -402,7 +417,7 @@ RDS/RBDS</h1>
   </dd>
 </dl>
 
-<p class="reference">Referenced by <a class="el" href="#l01042">RDA5807::getRdsText2A()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="#l01086">RDA5807::getRdsText2A()</a>.</p>
 
 </div>
 </div>
@@ -445,21 +460,30 @@ RDS/RBDS</h1>
 </div><div class="memdoc">
 
 <p>Gets Station Name, Station Information, Program Information and utcTime. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Todo:</a></b></dt><dd>It is under construction... </dd></dl>
-<p>This function populates four char pointers with the following contents (Arguments/parameters must be pointers to char).</p>
-<p>You must call setRDS(true), setRdsFifo(true) before calling getRdsAllData(...) </p><dl class="params"><dt>Parameters</dt><dd>
+<p>This function populates four char pointer variable parameters with Station Name, Station Information, Programa Information and UTC time.</p>
+<p>You must call setRDS(true), setRdsFifo(true) before calling getRdsAllData(...)</p>
+<p>ATTENTION: the parameters below are point to point to array of char.</p>
+<p>the right way to call this function is shown below. </p><div class="fragment"><div class="line"><span class="keywordtype">char</span> *stationName, *stationInfo, *programInfo, *rdsTime;</div>
+<div class="line"><span class="comment">// The char pointers above will be populate by the call below. So, the char pointers need to be passed by reference (pointer to pointer).</span></div>
+<div class="line"><span class="keywordflow">if</span> (rx.getRdsAllData(&amp;stationName, &amp;stationInfo , &amp;programInfo, &amp;rdsTime) ) {</div>
+<div class="line">    showProgramaInfo(programInfo);  </div>
+<div class="line">    showStationName(stationName); </div>
+<div class="line">    showStationInfo(stationInfo);</div>
+<div class="line">    showUtcTime(rdsTime); </div>
+<div class="line">}</div>
+</div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">stationName</td><td>- if NOT NULL, point to Name of the Station (char array - 9 bytes) </td></tr>
-    <tr><td class="paramname">stationInformation</td><td>- if NOT NULL, point to Station information (char array - 33 bytes) </td></tr>
-    <tr><td class="paramname">programInformation</td><td>- if NOT NULL, point to program information (char array - 65 nytes) </td></tr>
-    <tr><td class="paramname">utcTime</td><td>- if NOT NULL, point to char array containing the current UTC time (format HH:MM:SS +HH:MM) </td></tr>
+    <tr><td class="paramname">stationName</td><td>(reference) - if NOT NULL, point to Name of the Station (char array - 9 bytes) </td></tr>
+    <tr><td class="paramname">stationInformation</td><td>(reference) - if NOT NULL, point to Station information (char array - 33 bytes) </td></tr>
+    <tr><td class="paramname">programInformation</td><td>(reference) - if NOT NULL, point to program information (char array - 65 nytes) </td></tr>
+    <tr><td class="paramname">utcTime</td><td>(reference) - if NOT NULL, point to char array containing the current UTC time (format HH:MM:SS +HH:MM) </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if found at least one valid data </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="group__GA04.html#ga4b741f1433eda57949bb40fa9e973732" title="Sets the RDS operation.">setRDS</a>, <a class="el" href="group__GA04.html#gae27337170a5f3dedebf585aa19855ad6" title="Sets RDS fifo mode enable.">setRdsFifo</a>, <a class="el" href="group__GA04.html#gadafba5991f6f60a52ad73fdda8fac984" title="Gets Station Name, Station Information, Program Information and utcTime.">getRdsAllData</a> </dd></dl>
 
-<p class="reference">References <a class="el" href="#l00819">RDA5807::getRdsReady()</a>, <a class="el" href="#l01014">RDA5807::getRdsText0A()</a>, <a class="el" href="#l01042">RDA5807::getRdsText2A()</a>, <a class="el" href="#l01069">RDA5807::getRdsText2B()</a>, <a class="el" href="#l01094">RDA5807::getRdsTime()</a>, and <a class="el" href="#l00963">RDA5807::hasRdsInfoAB()</a>.</p>
+<p class="reference">References <a class="el" href="#l00826">RDA5807::getRdsReady()</a>, <a class="el" href="#l01056">RDA5807::getRdsText0A()</a>, <a class="el" href="#l01086">RDA5807::getRdsText2A()</a>, <a class="el" href="#l01116">RDA5807::getRdsText2B()</a>, <a class="el" href="#l01143">RDA5807::getRdsTime()</a>, and <a class="el" href="#l00988">RDA5807::hasRdsInfoAB()</a>.</p>
 
 </div>
 </div>
@@ -480,7 +504,8 @@ RDS/RBDS</h1>
 </div><div class="memdoc">
 
 <p>Returns the current Text Flag A/B. </p>
-<dl class="section return"><dt>Returns</dt><dd>uint8_t current Text Flag A/B </dd></dl>
+<p>ATTENTION: You must call getRdsReady before calling this function. </p><dl class="section return"><dt>Returns</dt><dd>uint8_t current Text Flag A/B </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__GA04.html#gacfa48dfcf792a9bcee489658177aed90" title="Returns true if RDS Ready.">getRdsReady</a> </dd></dl>
 
 </div>
 </div>
@@ -500,7 +525,33 @@ RDS/RBDS</h1>
 </div><div class="memdoc">
 
 <p>Return the group type. </p>
-<dl class="section return"><dt>Returns</dt><dd>uint16_t </dd></dl>
+<p>ATTENTION: You must call getRdsReady before calling this function. </p><dl class="section return"><dt>Returns</dt><dd>uint16_t </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__GA04.html#gacfa48dfcf792a9bcee489658177aed90" title="Returns true if RDS Ready.">getRdsReady</a> </dd></dl>
+
+</div>
+</div>
+<a id="gaa3432b4df8ec20277e3d3be60782b395" name="gaa3432b4df8ec20277e3d3be60782b395"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa3432b4df8ec20277e3d3be60782b395">&#9670;&#160;</a></span>getRdsLocalTime()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char * RDA5807::getRdsLocalTime </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the RDS time converted to local time. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Todo:</a></b></dt><dd>Need to check. </dd></dl>
+<p>ATTENTION: You must call getRdsReady before calling this function.</p>
+<p>ATTENTION: Some stations broadcast wrong time. </p><dl class="section return"><dt>Returns</dt><dd>char* a string with hh:mm </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__GA04.html#gacfa48dfcf792a9bcee489658177aed90" title="Returns true if RDS Ready.">getRdsReady</a> </dd></dl>
+
+<p class="reference">References <a class="el" href="#l00600">RDA5807::rds_time</a>.</p>
 
 </div>
 </div>
@@ -528,12 +579,13 @@ RDS/RBDS</h1>
 </table>
 </div><div class="memdoc">
 
-<p>Gets the Program Information. </p>
+<p>Gets the Program Information (RT - Radio Text) </p>
 <p>@</p>
-<p>Process the program information data. Same <a class="el" href="group__GA04.html#ga482098a64299cb8af976d4d10a460212" title="Gets the Program Information.">getRdsText2A()</a>. It is a alias for getRdsText2A. </p><dl class="section return"><dt>Returns</dt><dd>char array with the program information (63 bytes) </dd></dl>
+<p>Process the program information data. Same <a class="el" href="group__GA04.html#ga482098a64299cb8af976d4d10a460212" title="Gets the Program Information.">getRdsText2A()</a>. It is a alias for getRdsText2A.</p>
+<p>ATTENTION: You must call getRdsReady before calling this function. </p><dl class="section return"><dt>Returns</dt><dd>char array with the program information (63 bytes) </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="group__GA04.html#ga482098a64299cb8af976d4d10a460212" title="Gets the Program Information.">getRdsText2A</a> </dd></dl>
 
-<p class="reference">References <a class="el" href="#l01042">RDA5807::getRdsText2A()</a>.</p>
+<p class="reference">References <a class="el" href="#l01086">RDA5807::getRdsText2A()</a>.</p>
 
 </div>
 </div>
@@ -554,7 +606,11 @@ RDS/RBDS</h1>
 </div><div class="memdoc">
 
 <p>Returns the Program Type (extracted from the Block B) </p>
-<dl class="section see"><dt>See also</dt><dd><a href="https://en.wikipedia.org/wiki/Radio_Data_System">https://en.wikipedia.org/wiki/Radio_Data_System</a> </dd></dl>
+<p>ATTENTION: You must call getRdsReady before calling this function. </p><dl class="section see"><dt>See also</dt><dd><a href="https://en.wikipedia.org/wiki/Radio_Data_System">https://en.wikipedia.org/wiki/Radio_Data_System</a> </dd>
+<dd>
+<a href="https://www.2wcom.com/fileadmin/redaktion/dokumente/Company/RDS_Basics.pdf">2wcom RDS Basics</a> </dd>
+<dd>
+<a class="el" href="group__GA04.html#gacfa48dfcf792a9bcee489658177aed90" title="Returns true if RDS Ready.">getRdsReady</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>program type (an integer betwenn 0 and 31) </dd></dl>
 
 </div>
@@ -585,11 +641,13 @@ RDS/RBDS</h1>
 <div class="line">   }</div>
 <div class="line">}</div>
 </div><!-- fragment --><dl class="section return"><dt>Returns</dt><dd>true or false </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__GA04.html#ga4b741f1433eda57949bb40fa9e973732" title="Sets the RDS operation.">setRDS</a>, <a class="el" href="group__GA02.html#gabd676c0e4ad20c6152a68f8daba64cb3" title="Sets Interrupt Mode.">setInterruptMode</a>, <a class="el" href="group__GA04.html#gadafba5991f6f60a52ad73fdda8fac984" title="Gets Station Name, Station Information, Program Information and utcTime.">getRdsAllData</a>, <a class="el" href="group__GA04.html#ga25df690020bab4154b0737e7365ed8ea" title="Gets the Rds Sync.">getRdsSync</a>, <a class="el" href="group__GA04.html#gae27337170a5f3dedebf585aa19855ad6" title="Sets RDS fifo mode enable.">setRdsFifo</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__GA04.html#ga4b741f1433eda57949bb40fa9e973732" title="Sets the RDS operation.">setRDS</a>, <a class="el" href="group__GA02.html#gabd676c0e4ad20c6152a68f8daba64cb3" title="Sets Interrupt Mode.">setInterruptMode</a>, <a class="el" href="group__GA04.html#gadafba5991f6f60a52ad73fdda8fac984" title="Gets Station Name, Station Information, Program Information and utcTime.">getRdsAllData</a>, <a class="el" href="group__GA04.html#ga25df690020bab4154b0737e7365ed8ea" title="Gets the Rds Sync.">getRdsSync</a>, <a class="el" href="group__GA04.html#gae27337170a5f3dedebf585aa19855ad6" title="Sets RDS fifo mode enable.">setRdsFifo</a> </dd>
+<dd>
+<a href="https://www.2wcom.com/fileadmin/redaktion/dokumente/Company/RDS_Basics.pdf">2wcom - RDS BasicsRDS</a> </dd></dl>
 
 <p class="reference">References <a class="el" href="#l00079">RDA5807::getStatusRegisters()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="#l00877">RDA5807::getRdsAllData()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="#l00897">RDA5807::getRdsAllData()</a>.</p>
 
 </div>
 </div>
@@ -618,9 +676,10 @@ RDS/RBDS</h1>
 </div><div class="memdoc">
 
 <p>Gets the Station Information. </p>
-<dl class="section return"><dt>Returns</dt><dd>char array with the Text of Station Information (33 bytes) </dd></dl>
+<p>ATTENTION: You must call getRdsReady before calling this function. </p><dl class="section return"><dt>Returns</dt><dd>char array with the Text of Station Information (33 bytes) </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__GA04.html#gacfa48dfcf792a9bcee489658177aed90" title="Returns true if RDS Ready.">getRdsReady</a> </dd></dl>
 
-<p class="reference">References <a class="el" href="#l01069">RDA5807::getRdsText2B()</a>.</p>
+<p class="reference">References <a class="el" href="#l01116">RDA5807::getRdsText2B()</a>.</p>
 
 </div>
 </div>
@@ -649,10 +708,11 @@ RDS/RBDS</h1>
 </div><div class="memdoc">
 
 <p>Gets the Station Name. </p>
-<p>Alias for getRdsText0A </p><dl class="section return"><dt>Returns</dt><dd>char* should return a string with the station name. However, some stations send other kind of messages </dd></dl>
+<p>Alias for getRdsText0A</p>
+<p>ATTENTION: You must call getRdsReady before calling this function. </p><dl class="section return"><dt>Returns</dt><dd>char* should return a string with the station name. However, some stations send other kind of messages </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="group__GA04.html#ga5a26789f1910a5b2098919dbd50e6a3c" title="Gets the station name and other messages.">getRdsText0A</a> </dd></dl>
 
-<p class="reference">References <a class="el" href="#l01014">RDA5807::getRdsText0A()</a>.</p>
+<p class="reference">References <a class="el" href="#l01056">RDA5807::getRdsText0A()</a>.</p>
 
 </div>
 </div>
@@ -702,12 +762,12 @@ RDS/RBDS</h1>
 </div><div class="memdoc">
 
 <p>Gets the station name and other messages. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000005">Todo:</a></b></dt><dd>RDS Dynamic PS or Scrolling PS support </dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>char* should return a string with the station name. However, some stations send other kind of messages </dd></dl>
+<p>ATTENTION: You must call getRdsReady before calling this function. </p><dl class="section return"><dt>Returns</dt><dd>char* should return a string with the station name. However, some stations send other kind of messages </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__GA04.html#gacfa48dfcf792a9bcee489658177aed90" title="Returns true if RDS Ready.">getRdsReady</a> </dd></dl>
 
-<p class="reference">References <a class="el" href="#l00935">RDA5807::getNext2Block()</a>, and <a class="el" href="#l00599">RDA5807::rds_buffer0A</a>.</p>
+<p class="reference">References <a class="el" href="#l00977">RDA5807::getNext2Block()</a>, and <a class="el" href="#l00599">RDA5807::rds_buffer0A</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="#l00877">RDA5807::getRdsAllData()</a>, and <a class="el" href="#l00861">RDA5807::getRdsStationName()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="#l00897">RDA5807::getRdsAllData()</a>, and <a class="el" href="#l00881">RDA5807::getRdsStationName()</a>.</p>
 
 </div>
 </div>
@@ -729,11 +789,13 @@ RDS/RBDS</h1>
 
 <p>Gets the Program Information. </p>
 <p>@</p>
-<p>Process the program information data. </p><dl class="section return"><dt>Returns</dt><dd>char array with the program information (63 bytes) </dd></dl>
+<p>Process the program information data.</p>
+<p>ATTENTION: You must call getRdsReady before calling this function. </p><dl class="section return"><dt>Returns</dt><dd>char array with the program information (63 bytes) </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__GA04.html#gacfa48dfcf792a9bcee489658177aed90" title="Returns true if RDS Ready.">getRdsReady</a> </dd></dl>
 
-<p class="reference">References <a class="el" href="#l00972">RDA5807::getNext4Block()</a>, and <a class="el" href="#l00597">RDA5807::rds_buffer2A</a>.</p>
+<p class="reference">References <a class="el" href="#l01014">RDA5807::getNext4Block()</a>, and <a class="el" href="#l00597">RDA5807::rds_buffer2A</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="#l00877">RDA5807::getRdsAllData()</a>, and <a class="el" href="#l00871">RDA5807::getRdsProgramInformation()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="#l00897">RDA5807::getRdsAllData()</a>, and <a class="el" href="#l00892">RDA5807::getRdsProgramInformation()</a>.</p>
 
 </div>
 </div>
@@ -755,11 +817,13 @@ RDS/RBDS</h1>
 
 <p>Gets the Station Information. <br  />
  </p>
-<dl class="section return"><dt>Returns</dt><dd>char array with the Text of Station Information (33 bytes) </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000003">Todo:</a></b></dt><dd>Under construction... To be checked. </dd></dl>
+<p>ATTENTION: You must call getRdsReady before calling this function. </p><dl class="section return"><dt>Returns</dt><dd>char array with the Text of Station Information (33 bytes) </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__GA04.html#gacfa48dfcf792a9bcee489658177aed90" title="Returns true if RDS Ready.">getRdsReady</a> </dd></dl>
 
-<p class="reference">References <a class="el" href="#l00935">RDA5807::getNext2Block()</a>, and <a class="el" href="#l00598">RDA5807::rds_buffer2B</a>.</p>
+<p class="reference">References <a class="el" href="#l00977">RDA5807::getNext2Block()</a>, and <a class="el" href="#l00598">RDA5807::rds_buffer2B</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="#l00877">RDA5807::getRdsAllData()</a>, and <a class="el" href="#l00879">RDA5807::getRdsStationInformation()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="#l00897">RDA5807::getRdsAllData()</a>, and <a class="el" href="#l00902">RDA5807::getRdsStationInformation()</a>.</p>
 
 </div>
 </div>
@@ -778,13 +842,40 @@ RDS/RBDS</h1>
       </table>
 </div><div class="memdoc">
 
-<p>Gets the RDS time and date when the Group type is 4. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000006">Todo:</a></b></dt><dd>Need to check. </dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>char* a string with hh:mm +/- offset </dd></dl>
+<p>Gets the RDS UTC time and date when the Group type is 4. </p>
+<p>ATTENTION: You must call getRdsReady before calling this function.</p>
+<p>ATTENTION: Some stations broadcast wrong time. </p><dl class="section return"><dt>Returns</dt><dd>char* a string with hh:mm +/- offset </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__GA04.html#gacfa48dfcf792a9bcee489658177aed90" title="Returns true if RDS Ready.">getRdsReady</a> </dd></dl>
 
 <p class="reference">References <a class="el" href="#l00600">RDA5807::rds_time</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="#l00877">RDA5807::getRdsAllData()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="#l00897">RDA5807::getRdsAllData()</a>.</p>
+
+</div>
+</div>
+<a id="ga54b3bea446e68453ee1ce57762ade2e4" name="ga54b3bea446e68453ee1ce57762ade2e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga54b3bea446e68453ee1ce57762ade2e4">&#9670;&#160;</a></span>getRdsTrafficProgramCode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t RDA5807::getRdsTrafficProgramCode </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the Traffic Alerts given by the station. </p>
+<p>ATTENTION: You must call getRdsReady before calling this function. </p><dl class="section see"><dt>See also</dt><dd><a href="https://en.wikipedia.org/wiki/Radio_Data_System">https://en.wikipedia.org/wiki/Radio_Data_System</a> </dd>
+<dd>
+<a href="https://www.2wcom.com/fileadmin/redaktion/dokumente/Company/RDS_Basics.pdf">2wcom RDS Basics</a> </dd>
+<dd>
+<a class="el" href="group__GA04.html#gacfa48dfcf792a9bcee489658177aed90" title="Returns true if RDS Ready.">getRdsReady</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 = No Traffic Alerts; 1 = Station gives Traffic Alerts </dd></dl>
 
 </div>
 </div>
@@ -805,7 +896,8 @@ RDS/RBDS</h1>
 </div><div class="memdoc">
 
 <p>Gets the version code (extracted from the Block B) </p>
-<dl class="section return"><dt>Returns</dt><dd>0=A or 1=B </dd></dl>
+<p>ATTENTION: You must call getRdsReady before calling this function. </p><dl class="section return"><dt>Returns</dt><dd>0=A or 1=B </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__GA04.html#gacfa48dfcf792a9bcee489658177aed90" title="Returns true if RDS Ready.">getRdsReady</a> </dd></dl>
 
 </div>
 </div>
@@ -866,7 +958,7 @@ RDS/RBDS</h1>
 <p>You must call getRdsReady before calling this function </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="group__GA04.html#gacfa48dfcf792a9bcee489658177aed90" title="Returns true if RDS Ready.">getRdsReady</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>true or false </dd></dl>
 
-<p class="reference">Referenced by <a class="el" href="#l00877">RDA5807::getRdsAllData()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="#l00897">RDA5807::getRdsAllData()</a>.</p>
 
 </div>
 </div>
@@ -954,8 +1046,8 @@ RDS/RBDS</h1>
 <div class="ttc" id="agroup__GA01_html_classRDA5807"><div class="ttname"><a href="group__GA01.html#classRDA5807">RDA5807</a></div><div class="ttdoc">KT0915 Class.</div><div class="ttdef"><b>Definition:</b> RDA5807.h:568</div></div>
 <div class="ttc" id="agroup__GA02_html_ga272444216a784ea5317c83783eb2bfe7"><div class="ttname"><a href="group__GA02.html#ga272444216a784ea5317c83783eb2bfe7">RDA5807::setup</a></div><div class="ttdeci">void setup(uint8_t clock_frequency=CLOCK_32K, uint8_t oscillator_type=OSCILLATOR_TYPE_PASSIVE, uint8_t rlck_no_calibrate=RLCK_NO_CALIBRATE_MODE_OFF)</div><div class="ttdoc">Starts the device.</div><div class="ttdef"><b>Definition:</b> RDA5807.cpp:273</div></div>
 <div class="ttc" id="agroup__GA03_html_gad16a6afa9520b77498b17a72c226305a"><div class="ttname"><a href="group__GA03.html#gad16a6afa9520b77498b17a72c226305a">RDA5807::setFrequency</a></div><div class="ttdeci">void setFrequency(uint16_t frequency)</div><div class="ttdoc">Sets the frequency.</div><div class="ttdef"><b>Definition:</b> RDA5807.cpp:372</div></div>
-<div class="ttc" id="agroup__GA04_html_ga4b741f1433eda57949bb40fa9e973732"><div class="ttname"><a href="group__GA04.html#ga4b741f1433eda57949bb40fa9e973732">RDA5807::setRDS</a></div><div class="ttdeci">void setRDS(bool value)</div><div class="ttdoc">Sets the RDS operation.</div><div class="ttdef"><b>Definition:</b> RDA5807.cpp:776</div></div>
-<div class="ttc" id="agroup__GA04_html_gae27337170a5f3dedebf585aa19855ad6"><div class="ttname"><a href="group__GA04.html#gae27337170a5f3dedebf585aa19855ad6">RDA5807::setRdsFifo</a></div><div class="ttdeci">void setRdsFifo(bool value)</div><div class="ttdoc">Sets RDS fifo mode enable.</div><div class="ttdef"><b>Definition:</b> RDA5807.cpp:1160</div></div>
+<div class="ttc" id="agroup__GA04_html_ga4b741f1433eda57949bb40fa9e973732"><div class="ttname"><a href="group__GA04.html#ga4b741f1433eda57949bb40fa9e973732">RDA5807::setRDS</a></div><div class="ttdeci">void setRDS(bool value)</div><div class="ttdoc">Sets the RDS operation.</div><div class="ttdef"><b>Definition:</b> RDA5807.cpp:782</div></div>
+<div class="ttc" id="agroup__GA04_html_gae27337170a5f3dedebf585aa19855ad6"><div class="ttname"><a href="group__GA04.html#gae27337170a5f3dedebf585aa19855ad6">RDA5807::setRdsFifo</a></div><div class="ttdeci">void setRdsFifo(bool value)</div><div class="ttdoc">Sets RDS fifo mode enable.</div><div class="ttdef"><b>Definition:</b> RDA5807.cpp:1274</div></div>
 </div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">true</td><td>= turns the RDS ON; false = turns the RDS OFF </td></tr>
