@@ -21,7 +21,7 @@
 // Motor speed scalers (to compensate for motor variance)
 // Current issue: Left is faster, Right is slower
 float LEFT_MOTOR_SCALER = 1.0;
-float RIGHT_MOTOR_SCALER = 0.60;
+float RIGHT_MOTOR_SCALER = 1.0;
 
 // Reserved Servo IOs (not in use)
 #define SERVO1_PIN 11
@@ -74,7 +74,14 @@ void setup()
   Serial.begin(115200);
   
   // Set PWM frequency to 10kHz to prevent DRV8871 overheating
+#ifdef ESP32
+  analogWriteFrequency(M1_IN1, 10000);
+  analogWriteFrequency(M1_IN2, 10000);
+  analogWriteFrequency(M2_IN1, 10000);
+  analogWriteFrequency(M2_IN2, 10000);
+#else
   analogWriteFreq(10000);
+#endif
 
   Serial.println("Rover Controller initializing...");
   
@@ -108,7 +115,12 @@ void setup()
   setMotor(0, M1_IN1, M1_IN2);
   setMotor(0, M2_IN1, M2_IN2);
   
+#ifdef ESP32
   crsfSerial.begin(CRSF_BAUDRATE, SERIAL_8N1, PIN_RX, PIN_TX);
+#else
+  crsfSerial.begin(CRSF_BAUDRATE);
+#endif
+
   if (!crsfSerial) {
     while (1) {
       Serial.println("Invalid crsfSerial configuration");
