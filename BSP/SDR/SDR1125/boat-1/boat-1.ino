@@ -74,7 +74,7 @@ void setup()
   Serial.begin(115200);
   
   // Set PWM frequency to 10kHz to prevent DRV8871 overheating
-  analogWriteFrequency(10000);
+  analogWriteFreq(10000);
 
   Serial.println("Rover Controller initializing...");
   
