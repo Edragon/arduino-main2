@@ -17,6 +17,8 @@
 #define CH_THROTTLE 1    // Forward/Backward (CH1)
 #define CH_STEERING 3    // Left/Right (CH3)
 #define CH_SPEED_MODE 6  // Speed Mode (Low/Mid/High) (CH6)
+#define CH_MOSFET1 5     // MOSFET 1 Control (CH5)
+#define CH_MOSFET2 8     // MOSFET 2 Control (CH8)
 
 // Motor speed scalers (to compensate for motor variance)
 // Current issue: Left is faster, Right is slower
@@ -83,7 +85,7 @@ void setup()
   analogWriteFreq(10000);
 #endif
 
-  Serial.println("Rover Controller initializing...");
+  Serial.println("Boat Controller initializing...");
   
   // Motor pins setup
   pinMode(M1_IN1, OUTPUT);
@@ -91,22 +93,11 @@ void setup()
   pinMode(M2_IN1, OUTPUT);
   pinMode(M2_IN2, OUTPUT);
 
-  // Reserved Servo IOs setup (commented out/not in use)
-  // pinMode(SERVO1_PIN, OUTPUT);
-  // pinMode(SERVO2_PIN, OUTPUT);
-  // pinMode(SERVO3_PIN, OUTPUT);
-  // pinMode(SERVO4_PIN, OUTPUT);
-
-  // Reserved Buzzer setup (not in use)
-  // pinMode(BUZZER_PIN, OUTPUT);
-
-  // Reserved Relay setup (not in use)
-  // pinMode(RELAY1_PIN, OUTPUT);
-  // pinMode(RELAY2_PIN, OUTPUT);
-
-  // Reserved MOSFET setup (not in use)
-  // pinMode(MOSFET1_PIN, OUTPUT);
-  // pinMode(MOSFET2_PIN, OUTPUT);
+  // MOSFET setup
+  pinMode(MOSFET1_PIN, OUTPUT);
+  pinMode(MOSFET2_PIN, OUTPUT);
+  digitalWrite(MOSFET1_PIN, LOW);
+  digitalWrite(MOSFET2_PIN, LOW);
 
   // Battery Monitor setup
   pinMode(BATTERY_ADC_PIN, INPUT);
@@ -129,64 +120,63 @@ void setup()
   }
 
   crsf.begin(crsfSerial);
-  Serial.println("CRSF initialized");
 }
 
 void loop()
 {
-  // Must call crsf.update() in loop() to process data
+  static bool wasStopped = true;
   crsf.update();
 
   if (crsf.isLinkUp()) {
-    // CRSF values typically range from 1000 to 2000
     int throttleInput = crsf.getChannel(CH_THROTTLE); 
     int steeringInput = crsf.getChannel(CH_STEERING);
     int speedModeInput = crsf.getChannel(CH_SPEED_MODE);
 
-    // Determine max PWM based on Speed Mode (CH6)
-    int maxLimit = 255;
-    if (speedModeInput < 1300) {
-      maxLimit = 85;    // Low Speed
-    } else if (speedModeInput < 1700) {
-      maxLimit = 170;   // Middle Speed
-    } else {
-      maxLimit = 255;   // High Speed
-    }
+    digitalWrite(MOSFET1_PIN, crsf.getChannel(CH_MOSFET1) > 1500 ? HIGH : LOW);
+    digitalWrite(MOSFET2_PIN, crsf.getChannel(CH_MOSFET2) > 1500 ? HIGH : LOW);
 
-    // Map Input (1000-2000) to selected speed range (Inverted)
+    int maxLimit = 255;
+    if (speedModeInput < 1300) maxLimit = 85;
+    else if (speedModeInput < 1700) maxLimit = 170;
+
     int throttle = map(throttleInput, 1000, 2000, maxLimit, -maxLimit);
     int steering = map(steeringInput, 1000, 2000, maxLimit, -maxLimit);
 
-    // Apply Deadband to prevent motor hum near center
     if (abs(throttle) < 20) throttle = 0;
     if (abs(steering) < 20) steering = 0;
 
-    // Mixed differential steering
-    int leftSpeed = (throttle + steering) * LEFT_MOTOR_SCALER;
-    int rightSpeed = (throttle - steering) * RIGHT_MOTOR_SCALER;
+    int leftSpeed = constrain((throttle + steering) * LEFT_MOTOR_SCALER, -255, 255);
+    int rightSpeed = constrain((throttle - steering) * RIGHT_MOTOR_SCALER, -255, 255);
 
-    // Constrain to PWM range
-    leftSpeed = constrain(leftSpeed, -255, 255);
-    rightSpeed = constrain(rightSpeed, -255, 255);
+    if (leftSpeed != 0 || rightSpeed != 0) {
+      if (wasStopped) {
+        setMotor(leftSpeed, M1_IN1, M1_IN2);
+        delay(150);
+        setMotor(rightSpeed, M2_IN1, M2_IN2);
+        wasStopped = false;
+      } else {
+        setMotor(leftSpeed, M1_IN1, M1_IN2);
+        setMotor(rightSpeed, M2_IN1, M2_IN2);
+      }
+    } else {
+      setMotor(0, M1_IN1, M1_IN2);
+      setMotor(0, M2_IN1, M2_IN2);
+      wasStopped = true;
+    }
 
-    setMotor(leftSpeed, M1_IN1, M1_IN2);
-    setMotor(rightSpeed, M2_IN1, M2_IN2);
-
-    // Occasional debug print
-    static unsigned long lastPrint = 0;
-    if (millis() - lastPrint > 200) {
-      Serial.print("MODE:"); Serial.print(maxLimit == 85 ? "LOW" : (maxLimit == 170 ? "MID" : "HIGH"));
-      Serial.print(" CH1:"); Serial.print(crsf.getChannel(1));
-      Serial.print(" CH3:"); Serial.print(crsf.getChannel(3));
-      Serial.print(" THR:"); Serial.print(throttle);
-      Serial.print(" STR:"); Serial.print(steering);
+    static unsigned long lp = 0;
+    if (millis() - lp > 200) {
+      Serial.print("M1:"); Serial.print(crsf.getChannel(CH_MOSFET1));
+      Serial.print(" M2:"); Serial.print(crsf.getChannel(CH_MOSFET2));
       Serial.print(" L:"); Serial.print(leftSpeed);
       Serial.print(" R:"); Serial.println(rightSpeed);
-      lastPrint = millis();
+      lp = millis();
     }
   } else {
-    // Failsafe: Stop motors if RC is lost
     setMotor(0, M1_IN1, M1_IN2);
     setMotor(0, M2_IN1, M2_IN2);
+    digitalWrite(MOSFET1_PIN, LOW);
+    digitalWrite(MOSFET2_PIN, LOW);
+    wasStopped = true;
   }
 }

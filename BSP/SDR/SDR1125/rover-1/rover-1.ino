@@ -1,5 +1,6 @@
 #include <AlfredoCRSF.h>
 #include <HardwareSerial.h>
+#include <Adafruit_NeoPixel.h>
 
 #define PIN_RX 17
 #define PIN_TX 16
@@ -14,9 +15,11 @@
 #define M2_IN2 8
 
 // Channels
-#define CH_THROTTLE 1    // Forward/Backward (CH1)
-#define CH_STEERING 3    // Left/Right (CH3)
+#define CH_THROTTLE 3    // Forward/Backward (CH1)
+#define CH_STEERING 1    // Left/Right (CH3)
 #define CH_SPEED_MODE 6  // Speed Mode (Low/Mid/High) (CH6)
+#define CH_MOSFET1 5     // MOSFET 1 Control (CH5)
+#define CH_MOSFET2 8     // MOSFET 2 Control (CH8)
 
 // Reserved Servo IOs (not in use)
 #define SERVO1_PIN 11
@@ -37,6 +40,11 @@
 
 // Battery Monitor
 #define BATTERY_ADC_PIN 36
+
+// WS2812 Indicator
+#define RGB_PIN 48
+#define NUMPIXELS 1
+Adafruit_NeoPixel pixels(NUMPIXELS, RGB_PIN, NEO_GRB + NEO_KHZ800);
 
 // Set up a new Serial object
 HardwareSerial crsfSerial(1);
@@ -75,6 +83,12 @@ void setup()
   pinMode(M2_IN1, OUTPUT);
   pinMode(M2_IN2, OUTPUT);
 
+  // Set PWM frequency for motors
+  analogWriteFrequency(M1_IN1, 10000);
+  analogWriteFrequency(M1_IN2, 10000);
+  analogWriteFrequency(M2_IN1, 10000);
+  analogWriteFrequency(M2_IN2, 10000);
+
   // Reserved Servo IOs setup (commented out/not in use)
   // pinMode(SERVO1_PIN, OUTPUT);
   // pinMode(SERVO2_PIN, OUTPUT);
@@ -88,12 +102,20 @@ void setup()
   // pinMode(RELAY1_PIN, OUTPUT);
   // pinMode(RELAY2_PIN, OUTPUT);
 
-  // Reserved MOSFET setup (not in use)
-  // pinMode(MOSFET1_PIN, OUTPUT);
-  // pinMode(MOSFET2_PIN, OUTPUT);
+  // MOSFET setup
+  pinMode(MOSFET1_PIN, OUTPUT);
+  pinMode(MOSFET2_PIN, OUTPUT);
+  digitalWrite(MOSFET1_PIN, LOW);
+  digitalWrite(MOSFET2_PIN, LOW);
 
   // Battery Monitor setup
   pinMode(BATTERY_ADC_PIN, INPUT);
+
+  // WS2812 setup
+  pixels.begin();
+  pixels.setBrightness(50);
+  pixels.setPixelColor(0, pixels.Color(0, 0, 0));
+  pixels.show();
 
   // Stop motors initially
   setMotor(0, M1_IN1, M1_IN2);
@@ -113,12 +135,19 @@ void setup()
 
 void loop()
 {
+  static bool wasStopped = true;
   // Must call crsf.update() in loop() to process data
   crsf.update();
 
   if (crsf.isLinkUp()) {
     // CRSF values typically range from 1000 to 2000
     int throttleInput = crsf.getChannel(CH_THROTTLE); 
+    int mosfet1Input = crsf.getChannel(CH_MOSFET1);
+    int mosfet2Input = crsf.getChannel(CH_MOSFET2);
+
+    // Control MOSFETs based on CRSF channels (Threshold > 1500)
+    digitalWrite(MOSFET1_PIN, mosfet1Input > 1500 ? HIGH : LOW);
+    digitalWrite(MOSFET2_PIN, mosfet2Input > 1500 ? HIGH : LOW);
     int steeringInput = crsf.getChannel(CH_STEERING);
     int speedModeInput = crsf.getChannel(CH_SPEED_MODE);
 
@@ -148,8 +177,34 @@ void loop()
     leftSpeed = constrain(leftSpeed, -255, 255);
     rightSpeed = constrain(rightSpeed, -255, 255);
 
-    setMotor(leftSpeed, M1_IN1, M1_IN2);
-    setMotor(rightSpeed, M2_IN1, M2_IN2);
+    // Staggered start to avoid inrush current when starting from stop
+    if (leftSpeed != 0 || rightSpeed != 0) {
+      if (wasStopped) {
+        setMotor(leftSpeed, M1_IN1, M1_IN2);
+        delay(150);
+        setMotor(rightSpeed, M2_IN1, M2_IN2);
+        wasStopped = false;
+      } else {
+        setMotor(leftSpeed, M1_IN1, M1_IN2);
+        setMotor(rightSpeed, M2_IN1, M2_IN2);
+      }
+    } else {
+      setMotor(0, M1_IN1, M1_IN2);
+      setMotor(0, M2_IN1, M2_IN2);
+      wasStopped = true;
+    }
+
+    // Update LED Indicator based on direction
+    if (throttle > 20) {
+      pixels.setPixelColor(0, pixels.Color(0, 255, 0)); // Forward - Green
+    } else if (throttle < -20) {
+      pixels.setPixelColor(0, pixels.Color(255, 0, 0)); // Backward - Red
+    } else if (abs(steering) > 20) {
+      pixels.setPixelColor(0, pixels.Color(0, 0, 255)); // Turning - Blue
+    } else {
+      pixels.setPixelColor(0, pixels.Color(0, 0, 0));   // Stopped - Off
+    }
+    pixels.show();
 
     // Occasional debug print
     static unsigned long lastPrint = 0;
@@ -159,13 +214,20 @@ void loop()
       Serial.print(" CH3:"); Serial.print(crsf.getChannel(3));
       Serial.print(" THR:"); Serial.print(throttle);
       Serial.print(" STR:"); Serial.print(steering);
+      Serial.print(" M1:"); Serial.print(crsf.getChannel(CH_MOSFET1));
+      Serial.print(" M2:"); Serial.print(crsf.getChannel(CH_MOSFET2));
       Serial.print(" L:"); Serial.print(leftSpeed);
       Serial.print(" R:"); Serial.println(rightSpeed);
       lastPrint = millis();
     }
   } else {
+    digitalWrite(MOSFET1_PIN, LOW);
+    digitalWrite(MOSFET2_PIN, LOW);
     // Failsafe: Stop motors if RC is lost
     setMotor(0, M1_IN1, M1_IN2);
     setMotor(0, M2_IN1, M2_IN2);
+    wasStopped = true;
+    pixels.setPixelColor(0, pixels.Color(0, 0, 0));
+    pixels.show();
   }
 }
