@@ -1,0 +1,37 @@
+{
+	"weekly write template": {
+		"scope": "markdown",
+		"prefix": "weekly",
+		"body": [
+		  "This a weekly update newsletter, to briefly tell you whats new and whats fun we are working at, hope you like",
+		  "",
+		  "## New Boards",
+		  "",
+		  "",
+		  "",
+		  "## Development, Documents Updates",
+		  "",
+		  "",
+		  "",
+		  "## Dissusion, Feedback, To-do",
+		  "",
+		  "",
+		  "",
+		  "## Interesting Readings, News",
+		  "",
+		  "",
+		  ""
+		],
+		"description": "weekly write template"
+	  },
+	"code repo list": {
+		"scope": "markdown",
+		"prefix": "table",
+		"body": [
+			"| name | link | note |category | star | ",
+			"|-|-|-|-|-|",
+			"| | | | | |"
+		],
+		"description": "code repo list"
+	}
+}
