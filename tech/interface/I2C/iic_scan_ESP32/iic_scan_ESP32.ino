@@ -1,7 +1,7 @@
 #include <Wire.h>
 
-#define I2C_SDA      18
-#define I2C_SCL      17
+#define I2C_SDA      17
+#define I2C_SCL      16
 
 void setup()
 {
